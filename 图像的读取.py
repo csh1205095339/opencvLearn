@@ -21,6 +21,18 @@ def color_space_demo():
     cv.waitKey(0)
     cv.destroyAllWindows()
 
+def mat_demo():
+    image = cv.imread('D:/pictures/1.jpg')
+    print(image.shape)
+    roi = image[100:200, 100:200, :]
+    blank = np.zeros_like(image)
+    blank[100:200, 100:200, :] = image[100:200, 100:200, :]
+    cv.imshow("blank", blank)
+    cv.imshow("image", image)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     # Press Ctrl+F8 to toggle the breakpoint.
@@ -29,6 +41,6 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    pass
+    mat_demo()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
