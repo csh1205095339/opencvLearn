@@ -1,5 +1,6 @@
 # This is a sample Python script.
 import cv2 as cv
+import numpy
 import numpy as np
 from random import randint
 
@@ -194,7 +195,79 @@ def color_space_convert_demo():
     cv.waitKeyEx(0)
     cv.destroyAllWindows()
 
+# 图像色彩空间转换
+def pixel_stat_demo():
+    b1 = cv.imread('D:/pictures/1.jpg')
+    print(b1.shape)
+    cv.imshow("input", b1)
+    # means 为三个通道的均值 , dev 为方差
+    means, dev = cv.meanStdDev(b1)
+    print(f"means:\n{means}\ndev:\n{dev} ")
+    cv.waitKeyEx(0)
+    cv.destroyAllWindows()
+
+# 基础图形的绘制
+def drawing_demo():
+    b1 = np.zeros((512, 512, 3), dtype=np.uint8)
+    b2 = cv.imread('D:/pictures/1.jpg')
+    cv.rectangle(b1, (50, 50), (400, 400), (255, 0, 0), 2, 8, 0)
+    cv.circle(b2, (400, 150), 100, (0, 0, 255), 2, 8, 0)
+    cv.line(b1, (50, 50), (400, 400), (0, 255, 0), 2, 8, 0)
+    cv.putText(b1, "99% face", (50, 50), cv.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 255), 2, 8)
+    cv.imshow("rect", b1)
+    cv.imshow("circle", b2)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+# 随机颜色
+def random_color_demo():
+    b1 = np.zeros((512, 512, 3), dtype=np.uint8)
+    while True:
+        xx = np.random.randint(0, 512, 2, dtype=np.int32)
+        yy = np.random.randint(0, 512, 2, dtype=np.int32)
+        bgr = np.random.randint(0, 255, 3, dtype=np.int_)
+        cv.line(b1, (xx[0], yy[0]), (xx[1], yy[1]), (int(bgr[0]), int(bgr[1]), int(bgr[2])), 1, 8, 0)
+        cv.imshow("line", b1)
+        c = cv.waitKey(1)
+        if c == 27:
+            break
+    cv.destroyAllWindows()
+
+# 多边形的填充与绘制
+def polyline_drawing_demo():
+    canvas = np.zeros((512, 512, 3), dtype=np.uint8)
+    pts = numpy.array([[100, 100], [350, 100], [450, 280], [320, 450], [80, 400]], dtype=np.int32)
+    # # 画多边形
+    # cv.polylines(canvas, [pts], True, (0, 0, 255), 2, 8, 0)
+    # # 填充的画多边形
+    # cv.fillPoly(canvas, [pts], (0, 0, 255), 8, 0)
+    cv.drawContours(canvas, [pts], -1, (255, 0, 0), 1)
+    cv.imshow("polyline", canvas)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+b1 = np.zeros((512, 512, 3), dtype=np.uint8)
+
+def mouse_drawing(event, x, y, flags, param):
+    if event == cv.EVENT_LBUTTONDOWN:
+        print(x, y)
+    if event == cv.EVENT_MOUSEMOVE:
+        pass
+    if event == cv.EVENT_LBUTTONUP:
+        print(x, y)
+
+# 鼠标绘制图形
+def mouse_drawing_demo():
+    cv.namedWindow("mouse_demo", cv.WINDOW_AUTOSIZE)
+    cv.setMouseCallback("mouse_demo", mouse_drawing)
+    while True:
+        cv.imshow("mouse_demo", b1)
+        c = cv.waitKey(1)
+        if c == 27:
+            break
+    cv.destroyAllWindows()
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    color_space_convert_demo()
+    mouse_drawing_demo()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
